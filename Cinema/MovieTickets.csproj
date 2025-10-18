@@ -20,6 +20,7 @@
     <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\Images\Actors\" />
+    <Folder Include="wwwroot\Images\CinemaHalls\" />
   </ItemGroup>
 
 </Project>

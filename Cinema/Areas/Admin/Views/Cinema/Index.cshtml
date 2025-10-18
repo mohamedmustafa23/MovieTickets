@@ -1,0 +1,36 @@
+﻿@model List<CinemaHall>
+
+<div class="card">
+    <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">CinemaHalls <span class="text-muted fs-6">(@Model.Count)</span></h5>
+    </div>
+
+    <div class="card-body bg-body-tertiary px-3 py-3">
+        <div class="row g-3 text-center fs-10">
+            @foreach (var CinemaHall in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 col-xxl-2">
+                    <a asp-area="Admin"
+                       asp-controller="Cinema"
+                       asp-action="Edit"
+                       asp-route-id="@CinemaHall.Id"
+                       class="text-decoration-none text-dark">
+                        <div class="bg-white CinemaHall-card p-3 rounded-3 shadow-sm h-100 position-relative hover-shadow">
+                            <img class="img-thumbnail img-fluid rounded-circle mb-3 shadow-sm"
+                                 src="@CinemaHall.Img" alt="@CinemaHall.Name" width="100" />
+                            <h6 class="mb-1 fw-bold text-dark">@CinemaHall.Name</h6>
+                            <p class="fs-11 mb-1 text-muted">Technext Limited</p>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            <!-- Add new CinemaHall card -->
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2">
+                <div class="add-card rounded-3 shadow-sm h-100" title="Add new CinemaHall" onclick="window.location.href='/Admin/Cinema/Create'">
+                    +
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
