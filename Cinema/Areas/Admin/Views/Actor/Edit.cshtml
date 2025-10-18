@@ -1,0 +1,59 @@
+﻿@model Actor
+
+<div class="card p-4">
+    <h4 class="mb-4">Edit Actor</h4>
+
+    <!-- Edit Form -->
+    <form asp-area="Admin" asp-controller="Actor" asp-action="Edit" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" name="Name" value="@Model.Name" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" name="Email" type="email" value="@Model.Email" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date of Birth</label>
+            <input class="form-control" type="date" name="DateOfBirth"
+                   value="@(Model.DateOfBirth.HasValue? Model.DateOfBirth.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Gender</label>
+            <select class="form-select" name="Gender">
+                <option value="true" selected="@(Model.Gender)">Male</option>
+                <option value="false" selected="@(!Model.Gender)">Female</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Upload Image</label>
+            <input class="form-control" type="file" name="img" />
+            @if (!string.IsNullOrEmpty(Model.Img))
+            {
+                <div class="mt-2">
+                    <img src="@Model.Img" alt="@Model.Name" width="100" class="rounded shadow-sm" />
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="Description">@Model.Description</textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Save Changes</button>
+    </form>
+
+    <form asp-area="Admin" asp-controller="Actor" asp-action="Delete" asp-route-id="@Model.Id"
+          method="post" onsubmit="return confirm('Are you sure you want to delete this actor?');"
+          class="mt-3">
+        <button type="submit" class="btn btn-danger">Delete Actor</button>
+    </form>
+</div>
