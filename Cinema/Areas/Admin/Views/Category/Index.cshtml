@@ -1,0 +1,34 @@
+﻿@model List<Category>
+
+<div class="card">
+    <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Categorys <span class="text-muted fs-6">(@Model.Count)</span></h5>
+    </div>
+
+    <div class="card-body bg-body-tertiary px-3 py-3">
+        <div class="row g-3 text-center fs-10">
+            @foreach (var Category in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 col-xxl-2">
+                    <a asp-area="Admin"
+                       asp-controller="Category"
+                       asp-action="Edit"
+                       asp-route-id="@Category.Id"
+                       class="text-decoration-none text-dark">
+                        <div class="bg-white Category-card p-3 rounded-3 shadow-sm h-100 position-relative hover-shadow">
+                            <h6 class="mb-1 fw-bold text-dark">@Category.Name</h6>
+                            <p class="fs-11 mb-1 text-muted">Technext Limited</p>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            <!-- Add new Category card -->
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2">
+                <div class="add-card rounded-3 shadow-sm h-100" title="Add new Category" onclick="window.location.href='/Admin/Category/Create'">
+                    +
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
