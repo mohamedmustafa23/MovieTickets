@@ -21,6 +21,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\Images\Actors\" />
     <Folder Include="wwwroot\Images\CinemaHalls\" />
+    <Folder Include="wwwroot\Images\Movies\" />
   </ItemGroup>
 
 </Project>
