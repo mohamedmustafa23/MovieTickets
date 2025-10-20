@@ -1,25 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTickets.Models;
+using Microsoft.EntityFrameworkCore;
 using MovieTickets.Data;
+using MovieTickets.Models;
+using MovieTickets.ViewModels;
 
 namespace MovieTickets.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class MovieController : Controller
     {
-        ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context = new();
+
+
         public IActionResult Index()
         {
             var movies = _context.Movies.ToList();
             return View(movies);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var movieVM = new MovieVM
+            {
+                Categories = _context.Categories,
+                CinemaHalls = _context.CinemaHalls,
+                Actors = _context.Actors
+            };
+
+            return View(movieVM);
         }
+
         [HttpPost]
-        public IActionResult Create(Movie movie, IFormFile img)
+        public IActionResult Create(Movie movie, IFormFile img, int[] ActorIds)
         {
             if (img != null && img.Length > 0)
             {
@@ -31,8 +44,20 @@ namespace MovieTickets.Areas.Admin.Controllers
                 }
                 movie.MainImg = "/Images/Movies/" + fileName;
             }
+
+            movie.MovieActors = new List<MovieActor>();
+            foreach (var actorId in ActorIds)
+            {
+                movie.MovieActors.Add(new MovieActor
+                {
+                    ActorId = actorId,
+                    Movie = movie
+                });
+            }
+
             _context.Movies.Add(movie);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -59,13 +84,31 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var movie = _context.Movies.FirstOrDefault(a => a.Id == id);
-            return View(movie);
+            var movie = _context.Movies
+                .Include(m => m.MovieActors)
+                .ThenInclude(ma => ma.Actor)
+                .FirstOrDefault(a => a.Id == id);
+
+            if (movie == null) return NotFound();
+
+            var movieVM = new MovieVM
+            {
+                Categories = _context.Categories,
+                CinemaHalls = _context.CinemaHalls,
+                Actors = _context.Actors,
+                Movie = movie
+            };
+
+            return View(movieVM);
         }
+
         [HttpPost]
-        public IActionResult Edit(Movie movie, IFormFile? img)
+        public IActionResult Edit(Movie movie, IFormFile? img, int[] ActorIds)
         {
-            var existingMovie = _context.Movies.FirstOrDefault(a => a.Id == movie.Id);
+            var existingMovie = _context.Movies
+                .Include(m => m.MovieActors)
+                .FirstOrDefault(a => a.Id == movie.Id);
+
             if (existingMovie is not null)
             {
                 if (img is not null && img.Length > 0)
@@ -78,6 +121,7 @@ namespace MovieTickets.Areas.Admin.Controllers
                             System.IO.File.Delete(existingFilePath);
                         }
                     }
+
                     var fileName = Path.GetFileName(img.FileName);
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Movies", fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -87,6 +131,7 @@ namespace MovieTickets.Areas.Admin.Controllers
                     existingMovie.MainImg = "/Images/Movies/" + fileName;
                 }
 
+
                 existingMovie.Name = movie.Name;
                 existingMovie.Price = movie.Price;
                 existingMovie.DateTime = movie.DateTime;
@@ -95,9 +140,19 @@ namespace MovieTickets.Areas.Admin.Controllers
                 existingMovie.CinemaHallId = movie.CinemaHallId;
                 existingMovie.Description = movie.Description;
 
-                _context.Movies.Update(existingMovie);
+                existingMovie.MovieActors.Clear();
+                foreach (var actorId in ActorIds)
+                {
+                    existingMovie.MovieActors.Add(new MovieActor
+                    {
+                        ActorId = actorId,
+                        MovieId = existingMovie.Id
+                    });
+                }
+
                 _context.SaveChanges();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

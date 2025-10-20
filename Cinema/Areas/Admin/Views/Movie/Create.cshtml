@@ -1,11 +1,59 @@
-﻿<form method="post" enctype="multipart/form-data">
+﻿@model MovieVM
+
+<form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label" for="basic-form-name">Name</label>
         <input class="form-control" id="basic-form-name" type="text" placeholder="Name" name="Name" required />
     </div>
-
     <div class="mb-3">
-        <label class="form-label">Upload Image</label>
+        <label class="form-label" for="basic-form-name">Price</label>
+        <input class="form-control" id="basic-form-name" type="number" placeholder="Price" name="Price" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="basic-form-dob">Date Time</label>
+        <input class="form-control" id="basic-form-dob" type="datetime-local" name="DateTime" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="basic-form-gender">Category</label>
+        <select class="form-select" id="basic-form-gender" name="CategoryId" required>
+            <option value="">Select Movie Category</option>
+            @foreach(var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="actors">Actors</label>
+        <select class="form-select" id="actors" name="ActorIds" multiple required>
+            <option value="">Select Actors</option>
+            @foreach (var actor in Model.Actors)
+            {
+                <option value="@actor.Id">@actor.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="basic-form-gender">Cinema Hall</label>
+        <select class="form-select" id="basic-form-gender" name="CinemaHallId" required>
+            <option value="">Select Movie CinemaHalls</option>
+            @foreach (var cinemaHall in Model.CinemaHalls)
+            {
+                <option value="@cinemaHall.Id">@cinemaHall.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="basic-form-gender">Status</label>
+        <select class="form-select" id="basic-form-gender" name="Status" required>
+            <option value="">Select Movie Status</option>
+            <option value="@MovieState.ComingSoon">Coming Soon</option>
+            <option value="@MovieState.NowShowing">Now Showing</option>
+        </select>
+    </div>
+   
+    <div class="mb-3">
+        <label class="form-label">Upload Main Image</label>
         <input class="form-control" type="file" name="img"/>
     </div>
 
