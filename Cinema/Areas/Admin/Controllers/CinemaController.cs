@@ -16,11 +16,15 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new CinemaHall());
         }
         [HttpPost]
         public IActionResult Create(CinemaHall CinemaHall, IFormFile img)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(CinemaHall);
+            }
             if (img != null && img.Length > 0)
             {
                 var fileName = Path.GetFileName(img.FileName);
@@ -65,6 +69,10 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(CinemaHall CinemaHall, IFormFile? img)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(CinemaHall);
+            }
             var existingCinemaHall = _context.CinemaHalls.FirstOrDefault(a => a.Id == CinemaHall.Id);
             if (existingCinemaHall is not null)
             {

@@ -16,11 +16,16 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Actor());
         }
         [HttpPost]
         public IActionResult Create(Actor actor, IFormFile img)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(actor);
+            }
+
             if (img != null && img.Length > 0)
             {
                 var fileName = Path.GetFileName(img.FileName);
@@ -65,6 +70,11 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Actor actor, IFormFile? img)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(actor);
+            }
+
             var existingActor = _context.Actors.FirstOrDefault(a => a.Id == actor.Id);
             if (existingActor is not null)
             {

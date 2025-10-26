@@ -17,13 +17,14 @@ namespace MovieTickets.Models
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
+        [Required]
         public MovieState Status { get; set; } 
 
         public DateTime DateTime { get; set; }
-
-        // Main and sub images
-        public string? MainImg { get; set; }
+        [Required]
+        public string MainImg { get; set; } = string.Empty;
 
         // Foreign keys
         [Required]
@@ -33,6 +34,7 @@ namespace MovieTickets.Models
         public int CinemaHallId { get; set; }
         public CinemaHall CinemaHall { get; set; } = null!;
 
+        [Required]
         public List<MovieActor> MovieActors { get; set; } = new();
         public List<MovieSubImage> SubImages { get; set; } = new();
     }

@@ -1,17 +1,21 @@
-﻿<form method="post" enctype="multipart/form-data">
+﻿@model Actor
+<form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label" for="basic-form-name">Name</label>
         <input class="form-control" id="basic-form-name" type="text" placeholder="Name" name="Name" required />
+        <span class="text-danger" asp-validation-for="Name"></span>
     </div>
-
+    
     <div class="mb-3">
         <label class="form-label" for="basic-form-email">Email address</label>
         <input class="form-control" id="basic-form-email" type="email" placeholder="name@example.com" name="Email" />
+        <span class="text-danger" asp-validation-for="Email"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="basic-form-dob">Date of Birth</label>
         <input class="form-control" id="basic-form-dob" type="date" name="DateOfBirth" />
+        <span class="text-danger" asp-validation-for="DateOfBirth"></span>
     </div>
 
     <div class="mb-3">
@@ -21,16 +25,19 @@
             <option value="true">Male</option>
             <option value="false">Female</option>
         </select>
+        <span class="text-danger" asp-validation-for="Gender"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Upload Image</label>
         <input class="form-control" type="file" name="img"/>
+        <span class="text-danger" asp-validation-for="Img"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="basic-form-textarea">Description</label>
         <textarea class="form-control" id="basic-form-textarea" rows="3" placeholder="Description" name="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
     </div>
 
     <button class="btn btn-primary" type="submit">Submit</button>

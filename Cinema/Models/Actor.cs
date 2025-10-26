@@ -19,11 +19,11 @@ namespace MovieTickets.Models
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
+        [Required]
         public bool Gender { get; set; }  // true = Male, false = Female
 
         [MaxLength(500)]
         public string? Description { get; set; }
-
 
         public string? Img { get; set; }
     }

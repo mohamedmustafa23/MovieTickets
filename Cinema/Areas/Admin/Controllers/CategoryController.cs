@@ -16,11 +16,15 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Category());
         }
         [HttpPost]
         public IActionResult Create(Category Category)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(Category);
+            }
             _context.Categories.Add(Category);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -47,6 +51,10 @@ namespace MovieTickets.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category Category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(Category);
+            }
             var existingCategory = _context.Categories.FirstOrDefault(a => a.Id == Category.Id);
             if (existingCategory is not null)
             {

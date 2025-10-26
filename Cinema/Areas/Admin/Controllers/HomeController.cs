@@ -19,25 +19,5 @@ namespace MovieTickets.Areas.Admin.Controllers
 
             return View(viewModel);
         }
-        public IActionResult ShowActors()
-        {
-            var Actors = _context.Actors.ToList();
-            return View(Actors);
-        }
-        public IActionResult ShowMovies()
-        {
-            var movies = _context.Movies.ToList();
-            return View(movies);
-        }
-        public IActionResult ShowCinemaHalls()
-        {
-            var cinemaHalls = _context.CinemaHalls.ToList();
-            return View(cinemaHalls);
-        }
-        public IActionResult ShowCategories()
-        {
-            var categories = _context.Categories.ToList();
-            return View(categories);
-        }
     }
 }

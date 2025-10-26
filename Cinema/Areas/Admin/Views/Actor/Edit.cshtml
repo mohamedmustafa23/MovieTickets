@@ -10,42 +10,48 @@
 
         <div class="mb-3">
             <label class="form-label">Name</label>
-            <input class="form-control" name="Name" value="@Model.Name" required />
+            <input class="form-control" asp-for="Name" required />
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" name="Email" type="email" value="@Model.Email" />
+            <input class="form-control" asp-for="Email" />
+            <span class="text-danger" asp-validation-for="Email"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Date of Birth</label>
-            <input class="form-control" type="date" name="DateOfBirth"
+            <input class="form-control" asp-for="DateOfBirth"
                    value="@(Model.DateOfBirth.HasValue? Model.DateOfBirth.Value.ToString("yyyy-MM-dd") : "")" />
+            <span class="text-danger" asp-validation-for="DateOfBirth"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Gender</label>
-            <select class="form-select" name="Gender">
+            <select class="form-select" asp-for="Gender">
                 <option value="true" selected="@(Model.Gender)">Male</option>
                 <option value="false" selected="@(!Model.Gender)">Female</option>
             </select>
+            <span class="text-danger" asp-validation-for="Gender"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Upload Image</label>
-            <input class="form-control" type="file" name="img" />
+            <input class="form-control" type="file" asp-for="Img" />
             @if (!string.IsNullOrEmpty(Model.Img))
             {
                 <div class="mt-2">
                     <img src="@Model.Img" alt="@Model.Name" width="100" class="rounded shadow-sm" />
                 </div>
             }
+            <span class="text-danger" asp-validation-for="Img"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" name="Description">@Model.Description</textarea>
+            <textarea class="form-control" asp-for="Description">@Model.Description</textarea>
+            <span class="text-danger" asp-validation-for="Description"></span>
         </div>
 
         <button class="btn btn-primary" type="submit">Save Changes</button>

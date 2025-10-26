@@ -1,11 +1,14 @@
-﻿<form method="post" enctype="multipart/form-data">
+﻿@model Category
+<form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label" for="basic-form-name">Name</label>
-        <input class="form-control" id="basic-form-name" type="text" placeholder="Name" name="Name" required />
+        <input class="form-control" id="basic-form-name"  placeholder="Name" asp-for="Name" required />
+        <span class="text-danger" asp-validation-for="Name"></span>
     </div>
     <div class="mb-3">
         <label class="form-label" for="basic-form-textarea">Description</label>
-        <textarea class="form-control" id="basic-form-textarea" rows="3" placeholder="Description" name="Description"></textarea>
+        <textarea class="form-control" id="basic-form-textarea" rows="3" placeholder="Description" asp-for="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
     </div>
 
     <button class="btn btn-primary" type="submit">Submit</button>
